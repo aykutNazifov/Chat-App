@@ -8,7 +8,7 @@ import ChatPage from "./pages/ChatPage";
 
 function App() {
 
-  const user = false
+  const user = true
 
 
 
@@ -26,7 +26,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <div className="w-[90vw] h-[90vh] bg-blue-900/75 backdrop-blur-lg backdrop-saturate-150 rounded-xl p-4">
+        <RouterProvider router={router} />
+      </div>
     </>
   )
 }
