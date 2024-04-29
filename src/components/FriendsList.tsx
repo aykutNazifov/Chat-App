@@ -8,7 +8,7 @@ const FriendList = () => {
             <div className="mb-4">
                 <ProfileInfo />
             </div>
-            <div className="flex-1 overflow-y-scroll custom-scrollbar">
+            <div className="flex-1 overflow-y-auto custom-scrollbar">
 
                 <div className="flex items-center gap-5">
                     <div className="flex-1 flex items-center gap-1 bg-blue-900/50 rounded p-2">
@@ -19,13 +19,7 @@ const FriendList = () => {
                 </div>
 
                 <div>
-                    <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
-                        <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
-                        <div className="flex flex-col gap-2">
-                            <h3 className="font-medium">Jane Doe</h3>
-                            <p className="font-light text-[13px]">Hello</p>
-                        </div>
-                    </div>
+
                     <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
                         <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
                         <div className="flex flex-col gap-2">

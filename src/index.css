@@ -5,7 +5,7 @@
 
 body {
     height: 100vh;
-    background: url("/public/images/chat-bg.avif") center;
+    background: url("/images/chat-bg.avif") center;
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
