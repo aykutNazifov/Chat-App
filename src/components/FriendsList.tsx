@@ -9,7 +9,6 @@ const FriendList = () => {
                 <ProfileInfo />
             </div>
             <div className="flex-1 overflow-y-auto custom-scrollbar">
-
                 <div className="flex items-center gap-5">
                     <div className="flex-1 flex items-center gap-1 bg-blue-900/50 rounded p-2">
                         <img className="w-4" src="./search.png" alt="" />
@@ -57,7 +56,9 @@ const FriendList = () => {
                     </div>
 
                 </div>
-
+            </div>
+            <div>
+                <button className="w-full py-2 bg-blue-600/80 hover:bg-blue-600 transition-colors duration-300 rounded-md">Logout</button>
             </div>
         </div>
     )

@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { LegacyRef, useEffect, useRef, useState } from 'react'
 import EmojiPicker, { Theme } from 'emoji-picker-react';
 
 const Chat = () => {
+    const bottomRef = useRef<HTMLDivElement>(null)
     const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false)
     const [message, setMessage] = useState("")
 
     const handleEmojiClick = (emoji: string) => {
         setMessage(prev => prev + emoji)
     }
+
+    useEffect(() => {
+        bottomRef?.current?.scrollIntoView({ behavior: "smooth" })
+    }, [])
 
     return (
         <div className='mx-3 border-x border-x-solid border-white/60 h-full flex flex-col'>
@@ -29,6 +34,7 @@ const Chat = () => {
                 <div className='w-[70%] p-3 rounded-xl bg-purple-600 flex gap-2'>
                     <img className='w-[45px] h-[45px] rounded-full' src='./avatar.png' alt='' />
                     <div>
+                        <img src='./avatar.png' alt='' className='w-[400px] h-[220px]' />
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, adipisci.</p>
                         <span className='font-light text-xs'>2 mins ago</span>
 
@@ -76,6 +82,8 @@ const Chat = () => {
 
                     </div>
                 </div>
+
+                <div ref={bottomRef} />
 
             </div>
             <div className='flex items-center px-2 gap-4'>
