@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ProfileInfo from "./ProfileInfo"
+import AddFriendDialog from "./AddFriendDialog"
 
 const FriendList = () => {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
@@ -60,6 +61,9 @@ const FriendList = () => {
             <div>
                 <button className="w-full py-2 bg-blue-600/80 hover:bg-blue-600 transition-colors duration-300 rounded-md">Logout</button>
             </div>
+
+
+            {isAddDialogOpen && <AddFriendDialog closeDialog={() => setIsAddDialogOpen(false)} />}
         </div>
     )
 }
