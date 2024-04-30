@@ -1,9 +1,17 @@
 import { useState } from "react"
 import ProfileInfo from "./ProfileInfo"
 import AddFriendDialog from "./AddFriendDialog"
+import { signOut } from "firebase/auth"
+import { auth } from "../libs/firebase"
 
 const FriendList = () => {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+
+    const handleLogout = async () => {
+        await signOut(auth)
+    }
+
+
     return (
         <div className="flex flex-col h-full">
             <div className="mb-4">
@@ -59,7 +67,7 @@ const FriendList = () => {
                 </div>
             </div>
             <div>
-                <button className="w-full py-2 bg-blue-600/80 hover:bg-blue-600 transition-colors duration-300 rounded-md">Logout</button>
+                <button onClick={handleLogout} className="w-full py-2 bg-blue-600/80 hover:bg-blue-600 transition-colors duration-300 rounded-md">Logout</button>
             </div>
 
 

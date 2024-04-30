@@ -41,7 +41,7 @@ const Chat = () => {
                     </div>
                 </div>
                 <div className='w-[70%] p-3 rounded-xl bg-black/50 flex flex-row-reverse gap-2 self-end'>
-                    <img className='w-[45px] h-[45px] rounded-full' src='./avatar.png' alt='' />
+
                     <div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, adipisci.</p>
                         <span className='font-light text-xs'>2 mins ago</span>
@@ -58,7 +58,7 @@ const Chat = () => {
                     </div>
                 </div>
                 <div className='w-[70%] p-3 rounded-xl bg-black/50 flex flex-row-reverse gap-2 self-end'>
-                    <img className='w-[45px] h-[45px] rounded-full' src='./avatar.png' alt='' />
+
                     <div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, adipisci.</p>
                         <span className='font-light text-xs'>2 mins ago</span>
@@ -71,15 +71,13 @@ const Chat = () => {
                     <div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, adipisci.</p>
                         <span className='font-light text-xs'>2 mins ago</span>
-
                     </div>
                 </div>
                 <div className='w-[70%] p-3 rounded-xl bg-black/50 flex flex-row-reverse gap-2 self-end'>
-                    <img className='w-[45px] h-[45px] rounded-full' src='./avatar.png' alt='' />
+
                     <div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, adipisci.</p>
                         <span className='font-light text-xs'>2 mins ago</span>
-
                     </div>
                 </div>
 
