@@ -4,12 +4,14 @@ import AddFriendDialog from "./AddFriendDialog"
 import { signOut } from "firebase/auth"
 import { auth, db } from "../libs/firebase"
 import { useAuthStore } from "../hooks/useAuth"
-import { DocumentData, doc, getDoc, onSnapshot } from "firebase/firestore"
+import { DocumentData, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore"
+import { useChatStore } from "../hooks/useChat"
 
 const FriendList = () => {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
     const [chats, setChats] = useState<DocumentData | undefined>([])
     const { currentUser } = useAuthStore()
+    const { changeChat, chatId } = useChatStore()
 
     const handleLogout = async () => {
         await signOut(auth)
@@ -42,8 +44,29 @@ const FriendList = () => {
         }
     }, [currentUser])
 
-    console.log("chatss", chats)
+    const handleSelectChat = async (chat: any) => {
 
+        try {
+            const userChatRef = doc(db, "userchats", currentUser?.id!)
+            const userChatsSnapshot = await getDoc(userChatRef)
+
+            if (userChatsSnapshot.exists()) {
+                const userChatsData = userChatsSnapshot.data()
+
+                const chatIndex = userChatsData.chats.findIndex((c: any) => c.chatId === chatId)
+
+                userChatsData.chats[chatIndex].isSeen = true
+
+                await updateDoc(userChatRef, {
+                    chats: userChatsData.chats
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+        changeChat(chat.chatId, chat.user)
+    }
 
     return (
         <div className="flex flex-col h-full">
@@ -62,11 +85,11 @@ const FriendList = () => {
                 <div>
 
                     {chats?.map((chat: any) => (
-                        <div key={chat.chatId} className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
+                        <div key={chat.chatId} onClick={() => handleSelectChat(chat)} className={`flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400 ${chat.isSeen ? "bg-transparent" : "bg-blue-600/60"}`}>
                             <img className="w-[50px] rounded-full object-cover" src={chat.user?.avatar || "./avatar.png"} alt="" />
                             <div className="flex flex-col gap-2">
                                 <h3 className="font-medium">{chat.user?.username}</h3>
-                                <p className="font-light text-[13px]">Hello</p>
+                                <p className="font-light text-[13px]">{chat.lastMessage}</p>
                             </div>
                         </div>
                     ))}

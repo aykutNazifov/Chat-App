@@ -15,8 +15,6 @@ function App() {
 
   const { currentUser, isLoading, fetchUserInfo } = useAuthStore()
 
-  console.log("current user", currentUser)
-
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid as string)
