@@ -1,15 +1,48 @@
-import { useState } from "react"
+import { Key, useEffect, useState } from "react"
 import ProfileInfo from "./ProfileInfo"
 import AddFriendDialog from "./AddFriendDialog"
 import { signOut } from "firebase/auth"
-import { auth } from "../libs/firebase"
+import { auth, db } from "../libs/firebase"
+import { useAuthStore } from "../hooks/useAuth"
+import { DocumentData, doc, getDoc, onSnapshot } from "firebase/firestore"
 
 const FriendList = () => {
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+    const [chats, setChats] = useState<DocumentData | undefined>([])
+    const { currentUser } = useAuthStore()
 
     const handleLogout = async () => {
         await signOut(auth)
     }
+
+    useEffect(() => {
+
+        if (currentUser) {
+            const unsub = onSnapshot(doc(db, "userchats", currentUser?.id), async (res) => {
+                const items = res.data()?.chats
+
+                const promises = items.map(async (item: any) => {
+
+                    const userDocRef = doc(db, "users", item.receiverId);
+                    const userDocSnap = await getDoc(userDocRef);
+
+                    const user = userDocSnap.data()
+
+                    return { ...item, user }
+                })
+
+                const chatData = await Promise.all(promises)
+
+                setChats(chatData.sort((a, b) => b.updatedAt - a.updatedAt));
+            });
+
+            return () => {
+                unsub()
+            }
+        }
+    }, [currentUser])
+
+    console.log("chatss", chats)
 
 
     return (
@@ -28,41 +61,15 @@ const FriendList = () => {
 
                 <div>
 
-                    <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
-                        <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
-                        <div className="flex flex-col gap-2">
-                            <h3 className="font-medium">Jane Doe</h3>
-                            <p className="font-light text-[13px]">Hello</p>
+                    {chats?.map((chat: any) => (
+                        <div key={chat.chatId} className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
+                            <img className="w-[50px] rounded-full object-cover" src={chat.user?.avatar || "./avatar.png"} alt="" />
+                            <div className="flex flex-col gap-2">
+                                <h3 className="font-medium">{chat.user?.username}</h3>
+                                <p className="font-light text-[13px]">Hello</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
-                        <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
-                        <div className="flex flex-col gap-2">
-                            <h3 className="font-medium">Jane Doe</h3>
-                            <p className="font-light text-[13px]">Hello</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
-                        <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
-                        <div className="flex flex-col gap-2">
-                            <h3 className="font-medium">Jane Doe</h3>
-                            <p className="font-light text-[13px]">Hello</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
-                        <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
-                        <div className="flex flex-col gap-2">
-                            <h3 className="font-medium">Jane Doe</h3>
-                            <p className="font-light text-[13px]">Hello</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-5 p-4 cursor-pointer border-b border-b-gray-400">
-                        <img className="w-[50px] rounded-full object-cover" src="./avatar.png" alt="" />
-                        <div className="flex flex-col gap-2">
-                            <h3 className="font-medium">Jane Doe</h3>
-                            <p className="font-light text-[13px]">Hello</p>
-                        </div>
-                    </div>
+                    ))}
 
                 </div>
             </div>
